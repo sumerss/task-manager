@@ -1,8 +1,17 @@
-import { Router } from "express";
-import { getAllTasks } from "../controllers/tasks";
+import express from "express";
+import {
+  createTask,
+  getMyTasks,
+  shareTask,
+  getSharedTasks,
+} from "../controllers/tasks";
 
-const router = Router();
+const router = express.Router();
 
-router.get("/", getAllTasks);
+// Add Firebase auth middleware to populate req.userId (assumed)
+router.post("/", createTask);
+router.get("/", getMyTasks);
+router.post("/:id/share", shareTask);
+router.get("/shared", getSharedTasks);
 
 export default router;

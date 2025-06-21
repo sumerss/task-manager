@@ -1,0 +1,25 @@
+Project task_manager {
+  database_type: "PostgreSQL"
+}
+
+Table users {
+  id uuid [pk, default: uuid_generate_v4()]
+  email varchar [not null, unique]
+  password_hash varchar [not null]
+  created_at timestamp [default: now()]
+}
+
+Table tasks {
+  id uuid [pk, default: uuid_generate_v4()]
+  title varchar [not null]
+  description text
+  owner_id uuid [not null, ref: > users.id]
+  created_at timestamp [default: now()]
+}
+
+Table task_shares {
+  id uuid [pk, default: uuid_generate_v4()]
+  task_id uuid [not null, ref: > tasks.id]
+  user_id uuid [not null, ref: > users.id]
+  created_at timestamp [default: now()]
+}
