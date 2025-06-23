@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { db } from "./db";
+import cors from "cors";
 import taskRoutes from "./routes/tasks";
 import { verifyFirebaseToken } from "./middlewares/auth";
 
@@ -9,6 +10,11 @@ dotenv.config();
 const app = express(); // creates express application
 app.use(express.json());
 app.use(verifyFirebaseToken); // apply to all routes
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true, // optional if you're sending cookies or auth headers
+}));
 
 db.connect()
   .then(() => {
